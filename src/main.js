@@ -8,14 +8,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 // 在vue-cli创建的项目中  @的前缀 代表的是根路径 src目录
 import router from '@/router'
 
-import axios from 'axios'
-// 基准路径
-axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0/'
-// 请求头
-axios.defaults.headers = {
-  // token认证需要的字段  值：注意需要加上前缀 ‘Bearer ’
-  Authorization: 'Bearer ' + JSON.parse(window.sessionStorage.getItem('hm73-toutiao')).token
-}
+import axios from '@/api/axios'
 Vue.prototype.$http = axios
 
 Vue.use(ElementUI)
