@@ -53,15 +53,15 @@
               style="vertical-align:middle"
               width="30"
               height="30"
-              src="../../assets/images/avatar.jpg"
+              :src="avatar"
               alt
             />
-            <b style="vertical-align:middle;padding-left:5px">黑马小哥</b>
+            <b style="vertical-align:middle;padding-left:5px">{{name}}</b>
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item icon="el-icon-setting">个人设置</el-dropdown-item>
-            <el-dropdown-item icon="el-icon-unlock">退出登录</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-setting" @click.native="setting()">个人设置</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-unlock" @click.native="logout()">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-header>
@@ -77,12 +77,31 @@
 export default {
   data () {
     return {
-      collapse: false
+      collapse: false,
+      name: '',
+      avatar: ''
     }
+  },
+  created () {
+    const user = JSON.parse(window.sessionStorage.getItem('hm73-toutiao'))
+    this.name = user.name
+    this.avatar = user.photo
   },
   methods: {
     toggleMenu () {
       this.collapse = !this.collapse
+    },
+    // click事件是给谁绑定 el-dropdown-item
+    // 它不是原生的dom,不一定支持原生的事件绑定
+    // 如果我想给组件绑定原生的事件怎么办  需要给组件解析后的原生标签绑定
+    // 使用一个事件修饰符 栗子：@click.prevent  最默认行为  @click.native 触发原生事件
+    setting () {
+      this.$router.push('/setting')
+    },
+    logout () {
+      // window.sessionStorage.setItem('hm73-toutiao', null)
+      window.sessionStorage.removeItem('hm73-toutiao')
+      this.$router.push('/login')
     }
   }
 }
